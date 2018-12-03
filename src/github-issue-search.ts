@@ -5,9 +5,10 @@ export function activate(): void {
         const issueResults: sourcegraph.IssueResult[] = []
         await getGitHubIssueResults(query).then(result => {
             for (const res of result) {
-                issueResults.push({__typename: 'IssueResult', title: res.title, body: res.body, url: res.url})
+                issueResults.push({__typename: 'IssueResult', icon: '', label: res.title, url: res.url, results: [{url: res.url, body: res.body}]})
             }
         })
+        console.log('ISSUE RESULTS', issueResults)
         return issueResults
         }
     })
@@ -25,10 +26,22 @@ function getGitHubIssueResults(query: string): Promise<sourcegraph.IssueResult[]
 
 }
 
-// Learn what else is possible by visiting the [Sourcegraph extension documentation](https://github.com/sourcegraph/sourcegraph-extension-docs)
-
-// interface GitHubIssueResult {
-//     title: string
-//     body: string
+// export interface IssueResult {
+//     icon: string
+//     label: string
 //     url: string
+//     detail: string
+//     results: GenericSearchMatch[]
+// }
+
+// export interface GenericSearchMatch {
+//     url: string
+//     body: string
+//     highlights: Highlight
+// }
+
+// export interface Highlight {
+//     line: number
+//     character: number
+//     length: number
 // }
